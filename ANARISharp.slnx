@@ -1,6 +1,9 @@
 <Solution>
   <Folder Name="/samples/">
     <Project Path="samples/HelloANARI/HelloANARI.csproj" />
+    <Project Path="samples/SphereViewerAvalonia/SphereViewerAvalonia.csproj" />
+    <Project Path="samples/SphereViewerWinForms/SphereViewerWinForms.csproj" />
+    <Project Path="samples/SphereViewerWpf/SphereViewerWpf.csproj" />
   </Folder>
   <Folder Name="/src/">
     <Project Path="src/ANARISharp/ANARISharp.csproj" />

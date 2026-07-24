@@ -17,6 +17,9 @@ src/ANARISharp/              The bindings library (net8.0, AllowUnsafeBlocks)
   Interop/                   Generated P/Invoke layer (do not edit by hand)
   *.cs                       High-level class library
 samples/HelloANARI/          "First frame" tutorial port (renders a triangle to PPM)
+samples/SphereViewerWinForms/  Interactive viewer, WinForms front end (Windows)
+samples/SphereViewerWpf/       Interactive viewer, WPF front end (Windows)
+samples/SphereViewerAvalonia/  Interactive viewer, Avalonia UI front end (cross-platform)
 tests/AotRootTest/           Native AOT compatibility harness (see "Native AOT" below)
 tools/generate.ps1           Regenerates src/ANARISharp/Interop from the SDK headers
 ```
@@ -128,7 +131,7 @@ dotnet tool install -g ClangSharpPInvokeGenerator   # once
 powershell -File tools\generate.ps1 [-ANARIRoot <path-to-ANARI-install>]
 ```
 
-## Running the sample
+## Running the samples
 
 Add the directory containing `anari.dll` and the device libraries to `PATH`, then:
 
@@ -138,7 +141,27 @@ dotnet run --project samples\HelloANARI            # defaults to helide
 dotnet run --project samples\HelloANARI -- visrtx  # pick a library by argument
 ```
 
-The sample renders an 800x600 vertex-colored triangle and writes `hello_anari.ppm`.
+`HelloANARI` renders an 800x600 vertex-colored triangle and writes `hello_anari.ppm`.
+
+```powershell
+dotnet run --project samples\SphereViewerWinForms   # WinForms (Windows only)
+dotnet run --project samples\SphereViewerWpf        # WPF (Windows only)
+dotnet run --project samples\SphereViewerAvalonia   # Avalonia UI (cross-platform)
+```
+
+The three `SphereViewer*` samples are the same interactive viewer implemented with
+different UI toolkits: a window showing randomly placed spheres (200 by default; a
+toolbar text box and "Regenerate" button rebuild the scene with any count).
+Left-drag orbits the camera around the scene, and the mouse wheel zooms. The
+WinForms version builds its UI in code; the WPF and Avalonia versions use standard
+XAML/AXAML layouts with code-behind. Rendering is
+asynchronous: a timer polls `ANARIFrame.IsReady` and blits the mapped
+`channel.color` buffer into a toolkit bitmap (GDI+ `Bitmap`, WPF `WriteableBitmap`,
+or Avalonia `WriteableBitmap`), so the UI stays responsive while frames are in
+flight. Frame accumulation (`KHR_FRAME_ACCUMULATION`) is enabled: while the camera
+is still, the viewer keeps rendering to progressively accumulate up to 64 sample
+passes; any camera or resize change recommits the frame, which resets the
+accumulation.
 
 ## Usage example
 

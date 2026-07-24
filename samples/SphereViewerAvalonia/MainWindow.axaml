@@ -1,0 +1,21 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="SphereViewerAvalonia.MainWindow"
+        Title="ANARI Sphere Viewer (Avalonia)"
+        Width="800" Height="672">
+    <DockPanel>
+        <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="6" Spacing="6">
+            <TextBlock Text="Spheres:" VerticalAlignment="Center"/>
+            <TextBox x:Name="CountTextBox" Width="80" Text="200"/>
+            <Button Content="Regenerate" IsDefault="True" Click="OnApplyClicked"/>
+            <TextBlock x:Name="StatusText" VerticalAlignment="Center" Foreground="OrangeRed"/>
+        </StackPanel>
+        <Panel x:Name="Viewport" Background="#141420"
+               PointerPressed="OnViewportPointerPressed"
+               PointerMoved="OnViewportPointerMoved"
+               PointerReleased="OnViewportPointerReleased"
+               PointerWheelChanged="OnViewportPointerWheelChanged">
+            <Image x:Name="ViewportImage" Stretch="Fill"/>
+        </Panel>
+    </DockPanel>
+</Window>

@@ -1,0 +1,22 @@
+<Window x:Class="SphereViewerWpf.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="ANARI Sphere Viewer (WPF)"
+        Width="816" Height="672">
+    <DockPanel>
+        <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="6">
+            <Label Content="Spheres:" VerticalAlignment="Center"/>
+            <TextBox x:Name="CountTextBox" Width="80" Text="200"
+                     VerticalContentAlignment="Center"/>
+            <Button Content="Regenerate" Margin="6,0,0,0" Padding="10,2"
+                    IsDefault="True" Click="OnApplyClicked"/>
+        </StackPanel>
+        <Grid x:Name="Viewport" Background="#141420"
+              MouseLeftButtonDown="OnViewportMouseDown"
+              MouseMove="OnViewportMouseMove"
+              MouseLeftButtonUp="OnViewportMouseUp"
+              MouseWheel="OnViewportMouseWheel">
+            <Image x:Name="ViewportImage" Stretch="Fill"/>
+        </Grid>
+    </DockPanel>
+</Window>

@@ -17,6 +17,7 @@ src/ANARISharp/              The bindings library (net8.0, AllowUnsafeBlocks)
   Interop/                   Generated P/Invoke layer (do not edit by hand)
   *.cs                       High-level class library
 samples/HelloANARI/          "First frame" tutorial port (renders a triangle to PPM)
+samples/HelloANARIVB/        The same tutorial in VB.NET (see the VB notes in Program.vb)
 samples/SphereViewerWinForms/  Interactive viewer, WinForms front end (Windows)
 samples/SphereViewerWpf/       Interactive viewer, WPF front end (Windows)
 samples/SphereViewerAvalonia/  Interactive viewer, Avalonia UI front end (cross-platform)
@@ -142,6 +143,16 @@ dotnet run --project samples\HelloANARI -- visrtx  # pick a library by argument
 ```
 
 `HelloANARI` renders an 800x600 vertex-colored triangle and writes `hello_anari.ppm`.
+
+The same tutorial is also available in VB.NET as `HelloANARIVB` (writes
+`hello_anari_vb.ppm`). ANARISharp is consumable from VB.NET with two caveats,
+both demonstrated in the sample: Span-taking generic methods need explicit type
+arguments (`SetParameterArray1D(Of Vector3)(...)`), and pointer-based overloads
+are out of reach (the high-level API does not require them).
+
+```powershell
+dotnet run --project samples\HelloANARIVB
+```
 
 ```powershell
 dotnet run --project samples\SphereViewerWinForms   # WinForms (Windows only)

@@ -125,7 +125,9 @@ a JIT deployment.
 
 ## Regenerating the bindings
 
-Requires the ClangSharp global tool. Default SDK path is `D:\anari\next_release`:
+Requires the ClangSharp global tool. The SDK install prefix defaults to
+`C:\Program Files\anari-sdk` (the CMake default on Windows) and can be overridden
+with the `-ANARIRoot` parameter or the `ANARI_ROOT` environment variable:
 
 ```powershell
 dotnet tool install -g ClangSharpPInvokeGenerator   # once
@@ -137,7 +139,7 @@ powershell -File tools\generate.ps1 [-ANARIRoot <path-to-ANARI-install>]
 Add the directory containing `anari.dll` and the device libraries to `PATH`, then:
 
 ```powershell
-$env:PATH = "D:\anari\next_release\bin;$env:PATH"
+$env:PATH = "C:\Program Files\anari-sdk\bin;$env:PATH"
 dotnet run --project examples\HelloANARI            # defaults to helide
 dotnet run --project examples\HelloANARI -- visrtx  # pick a library by argument
 ```

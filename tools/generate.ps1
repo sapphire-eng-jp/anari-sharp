@@ -11,7 +11,8 @@
 #   3. anari_enums.h  -> ANARIEnums.cs (C# enums synthesized from the #defines)
 
 param(
-    [string]$ANARIRoot = 'D:\anari\next_release',
+    # ANARI SDK install prefix; override via this parameter or the ANARI_ROOT environment variable
+    [string]$ANARIRoot = $(if ($env:ANARI_ROOT) { $env:ANARI_ROOT } else { 'C:\Program Files\anari-sdk' }),
     [string]$RepoRoot = (Split-Path $PSScriptRoot -Parent)
 )
 

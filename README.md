@@ -16,11 +16,11 @@ ANARISharp.slnx              Solution (dotnet 10 slnx format)
 src/ANARISharp/              The bindings library (net8.0, AllowUnsafeBlocks)
   Interop/                   Generated P/Invoke layer (do not edit by hand)
   *.cs                       High-level class library
-samples/HelloANARI/          "First frame" tutorial port (renders a triangle to PPM)
-samples/HelloANARIVB/        The same tutorial in VB.NET (see the VB notes in Program.vb)
-samples/SphereViewerWinForms/  Interactive viewer, WinForms front end (Windows)
-samples/SphereViewerWpf/       Interactive viewer, WPF front end (Windows)
-samples/SphereViewerAvalonia/  Interactive viewer, Avalonia UI front end (cross-platform)
+examples/HelloANARI/         "First frame" tutorial port (renders a triangle to PPM)
+examples/HelloANARIVB/       The same tutorial in VB.NET (see the VB notes in Program.vb)
+examples/SphereViewerWinForms/  Interactive viewer, WinForms front end (Windows)
+examples/SphereViewerWpf/       Interactive viewer, WPF front end (Windows)
+examples/SphereViewerAvalonia/  Interactive viewer, Avalonia UI front end (cross-platform)
 tests/AotRootTest/           Native AOT compatibility harness (see "Native AOT" below)
 tools/generate.ps1           Regenerates src/ANARISharp/Interop from the SDK headers
 ```
@@ -132,35 +132,35 @@ dotnet tool install -g ClangSharpPInvokeGenerator   # once
 powershell -File tools\generate.ps1 [-ANARIRoot <path-to-ANARI-install>]
 ```
 
-## Running the samples
+## Running the examples
 
 Add the directory containing `anari.dll` and the device libraries to `PATH`, then:
 
 ```powershell
 $env:PATH = "D:\anari\next_release\bin;$env:PATH"
-dotnet run --project samples\HelloANARI            # defaults to helide
-dotnet run --project samples\HelloANARI -- visrtx  # pick a library by argument
+dotnet run --project examples\HelloANARI            # defaults to helide
+dotnet run --project examples\HelloANARI -- visrtx  # pick a library by argument
 ```
 
 `HelloANARI` renders an 800x600 vertex-colored triangle and writes `hello_anari.ppm`.
 
 The same tutorial is also available in VB.NET as `HelloANARIVB` (writes
 `hello_anari_vb.ppm`). ANARISharp is consumable from VB.NET with two caveats,
-both demonstrated in the sample: Span-taking generic methods need explicit type
+both demonstrated in the example: Span-taking generic methods need explicit type
 arguments (`SetParameterArray1D(Of Vector3)(...)`), and pointer-based overloads
 are out of reach (the high-level API does not require them).
 
 ```powershell
-dotnet run --project samples\HelloANARIVB
+dotnet run --project examples\HelloANARIVB
 ```
 
 ```powershell
-dotnet run --project samples\SphereViewerWinForms   # WinForms (Windows only)
-dotnet run --project samples\SphereViewerWpf        # WPF (Windows only)
-dotnet run --project samples\SphereViewerAvalonia   # Avalonia UI (cross-platform)
+dotnet run --project examples\SphereViewerWinForms   # WinForms (Windows only)
+dotnet run --project examples\SphereViewerWpf        # WPF (Windows only)
+dotnet run --project examples\SphereViewerAvalonia   # Avalonia UI (cross-platform)
 ```
 
-The three `SphereViewer*` samples are the same interactive viewer implemented with
+The three `SphereViewer*` examples are the same interactive viewer implemented with
 different UI toolkits: a window showing randomly placed spheres (200 by default; a
 toolbar text box and "Regenerate" button rebuild the scene with any count).
 Left-drag orbits the camera around the scene, and the mouse wheel zooms. The

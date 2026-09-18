@@ -13,6 +13,10 @@ public unsafe class ANARIObject : IDisposable
 {
     private readonly ANARIDevice? _device;
 
+    // Native device handle captured at construction. Child objects retain it so
+    // anariRelease stays valid even if the device wrapper is disposed first.
+    private readonly IntPtr _deviceHandle;
+
     /// <summary>Raw native ANARIObject handle.</summary>
     public IntPtr Handle { get; private set; }
 
@@ -27,10 +31,13 @@ public unsafe class ANARIObject : IDisposable
         if (handle == IntPtr.Zero)
             throw new InvalidOperationException($"Failed to create {GetType().Name} (native call returned NULL).");
         _device = device;
+        _deviceHandle = device?.Handle ?? handle;
         Handle = handle;
+        if (device != null)
+            ANARI.anariRetain((Device*)_deviceHandle, (Interop.Object*)_deviceHandle);
     }
 
-    internal Device* DevicePtr => (Device*)Device.Handle;
+    internal Device* DevicePtr => (Device*)_deviceHandle;
     internal Interop.Object* ObjectPtr => (Interop.Object*)Handle;
 
     // Parameters //////////////////////////////////////////////////////////////
@@ -238,6 +245,9 @@ public unsafe class ANARIObject : IDisposable
         {
             ANARI.anariRelease(DevicePtr, ObjectPtr);
             Handle = IntPtr.Zero;
+            // Drop the device reference taken in the constructor.
+            if (_device != null)
+                ANARI.anariRelease((Device*)_deviceHandle, (Interop.Object*)_deviceHandle);
         }
         GC.SuppressFinalize(this);
     }

@@ -18,6 +18,8 @@ public static class ANARITypeFor<T> where T : unmanaged
     {
         var t = typeof(T);
 
+        // C# bool is a single byte in unmanaged context, matching ANARI_BOOL (ANARI 1.1).
+        if (t == typeof(bool)) return ANARIDataType.ANARI_BOOL;
         if (t == typeof(sbyte)) return ANARIDataType.ANARI_INT8;
         if (t == typeof(byte)) return ANARIDataType.ANARI_UINT8;
         if (t == typeof(short)) return ANARIDataType.ANARI_INT16;

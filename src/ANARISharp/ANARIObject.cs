@@ -60,10 +60,10 @@ public unsafe class ANARIObject : IDisposable
             ANARI.anariSetParameter(DevicePtr, ObjectPtr, (sbyte*)n, ANARIDataType.ANARI_STRING, v);
     }
 
-    /// <summary>Sets an ANARI_BOOL parameter (stored as uint32, as in anari_cpp).</summary>
+    /// <summary>Sets an ANARI_BOOL parameter (a single byte, per the ANARI 1.1 specification).</summary>
     public void SetParameter(string name, bool value)
     {
-        uint b = value ? 1u : 0u;
+        byte b = value ? (byte)1 : (byte)0;
         fixed (byte* n = NativeHelpers.ToUtf8(name))
             ANARI.anariSetParameter(DevicePtr, ObjectPtr, (sbyte*)n, ANARIDataType.ANARI_BOOL, &b);
     }
@@ -220,14 +220,14 @@ public unsafe class ANARIObject : IDisposable
         }
     }
 
-    /// <summary>Queries a bool property (transported as ANARI_BOOL/uint32, as in anari_cpp).</summary>
+    /// <summary>Queries a bool property (ANARI_BOOL, a single byte per the ANARI 1.1 specification).</summary>
     public bool GetProperty(string name, out bool value, bool wait = true)
     {
         fixed (byte* n = NativeHelpers.ToUtf8(name))
         {
-            uint v = 0;
+            byte v = 0;
             int ok = ANARI.anariGetProperty(DevicePtr, ObjectPtr, (sbyte*)n,
-                ANARIDataType.ANARI_BOOL, &v, sizeof(uint), wait ? 1u : 0u);
+                ANARIDataType.ANARI_BOOL, &v, sizeof(byte), wait ? 1u : 0u);
             value = v != 0;
             return ok != 0;
         }

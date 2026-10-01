@@ -70,16 +70,16 @@ A class library equivalent to `anari_cpp.hpp`:
   surface of anari_cpp:
   - `SetParameter<T>(name, value)` with the ANARI type inferred by
     **`ANARITypeFor<T>`**, the C# equivalent of the `ANARITypeFor<T>` trait in
-    `anari_cpp/Traits.h`. Supported types include all integer/float scalars, `Half`,
+    `anari_cpp/Traits.h`. Supported types include `bool`, all integer/float scalars, `Half`,
     `System.Numerics` `Vector2/3/4`, `Matrix4x4` (`ANARI_FLOAT32_MAT4`),
     `Quaternion` (`ANARI_FLOAT32_QUAT_IJKW`), and the `IVec*`/`UVec*` structs.
   - Overloads matching the C++ specializations: `string` -> `ANARI_STRING`,
-    `bool` -> `ANARI_BOOL` transported as `uint32`, `ANARIObject` -> the object's own
+    `bool` -> `ANARI_BOOL` (a single byte, per ANARI 1.1), `ANARIObject` -> the object's own
     handle type, plus `SetParameterAs<T>` and `SetAndReleaseParameter`.
   - `SetParameterArray1D/2D/3D` - directly mapped parameter arrays
     (`anariMapParameterArray*`), handling both dense and strided destinations, with
     an object-handle overload for parameters like `world.surface`.
-  - `GetProperty<T>` (with the `bool`-via-`uint32` special case), `UnsetParameter`,
+  - `GetProperty<T>` (with a `bool` overload for `ANARI_BOOL`), `UnsetParameter`,
     `UnsetAllParameters`, `CommitParameters`, `Retain`, and `IDisposable.Dispose`
     calling `anariRelease` (idempotent).
 - **`ANARIDevice`** - the object factory: `NewCamera`, `NewGeometry`, `NewLight`, ...,

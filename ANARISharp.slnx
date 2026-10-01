@@ -3,6 +3,7 @@
     <Project Path="examples/HelloANARI/HelloANARI.csproj" />
     <Project Path="examples/HelloANARIVB/HelloANARIVB.vbproj" />
     <Project Path="examples/SphereViewerAvalonia/SphereViewerAvalonia.csproj" />
+    <Project Path="examples/SphereViewerSilk/SphereViewerSilk.csproj" />
     <Project Path="examples/SphereViewerWinForms/SphereViewerWinForms.csproj" />
     <Project Path="examples/SphereViewerWpf/SphereViewerWpf.csproj" />
   </Folder>

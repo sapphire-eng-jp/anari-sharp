@@ -21,6 +21,7 @@ examples/HelloANARIVB/       The same tutorial in VB.NET (see the VB notes in Pr
 examples/SphereViewerWinForms/  Interactive viewer, WinForms front end (Windows)
 examples/SphereViewerWpf/       Interactive viewer, WPF front end (Windows)
 examples/SphereViewerAvalonia/  Interactive viewer, Avalonia UI front end (cross-platform)
+examples/SphereViewerSilk/      Interactive viewer, Silk.NET + OpenGL front end (cross-platform)
 tests/AotRootTest/           Native AOT compatibility harness (see "Native AOT" below)
 tools/generate.ps1           Regenerates src/ANARISharp/Interop from the SDK headers
 ```
@@ -160,21 +161,30 @@ dotnet run --project examples\HelloANARIVB
 dotnet run --project examples\SphereViewerWinForms   # WinForms (Windows only)
 dotnet run --project examples\SphereViewerWpf        # WPF (Windows only)
 dotnet run --project examples\SphereViewerAvalonia   # Avalonia UI (cross-platform)
+dotnet run --project examples\SphereViewerSilk       # Silk.NET + OpenGL (cross-platform)
 ```
 
-The three `SphereViewer*` examples are the same interactive viewer implemented with
-different UI toolkits: a window showing randomly placed spheres (200 by default; a
-toolbar text box and "Regenerate" button rebuild the scene with any count).
-Left-drag orbits the camera around the scene, and the mouse wheel zooms. The
-WinForms version builds its UI in code; the WPF and Avalonia versions use standard
-XAML/AXAML layouts with code-behind. Rendering is
-asynchronous: a timer polls `ANARIFrame.IsReady` and blits the mapped
+The `SphereViewer*` examples are the same interactive viewer implemented with
+different UI toolkits: a window showing randomly placed spheres (200 by default).
+Left-drag orbits the camera around the scene, and the mouse wheel zooms. In the
+WinForms, WPF and Avalonia versions a toolbar text box and "Regenerate" button
+rebuild the scene with any count; the WinForms version builds its UI in code, and
+the WPF and Avalonia versions use standard XAML/AXAML layouts with code-behind.
+Rendering is asynchronous: a timer polls `ANARIFrame.IsReady` and blits the mapped
 `channel.color` buffer into a toolkit bitmap (GDI+ `Bitmap`, WPF `WriteableBitmap`,
 or Avalonia `WriteableBitmap`), so the UI stays responsive while frames are in
 flight. Frame accumulation (`KHR_FRAME_ACCUMULATION`) is enabled: while the camera
 is still, the viewer keeps rendering to progressively accumulate up to 64 sample
 passes; any camera or resize change recommits the frame, which resets the
 accumulation.
+
+The Silk.NET version has no toolkit widgets: Up/Down doubles/halves the sphere
+count (shown in the window title) and Escape quits. It is driven by the window's
+vsync-paced `Render` event instead of a timer, and presents frames by uploading
+`channel.color` to an OpenGL texture (`glTexSubImage2D`) drawn as a fullscreen
+triangle. Because ANARI frames and OpenGL textures are both bottom-up, no row
+flip is needed, and the sRGB-encoded channel is stored as plain `RGBA8` so the
+transfer function is not applied twice.
 
 ## Usage example
 

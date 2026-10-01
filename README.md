@@ -184,7 +184,11 @@ vsync-paced `Render` event instead of a timer, and presents frames by uploading
 `channel.color` to an OpenGL texture (`glTexSubImage2D`) drawn as a fullscreen
 triangle. Because ANARI frames and OpenGL textures are both bottom-up, no row
 flip is needed, and the sRGB-encoded channel is stored as plain `RGBA8` so the
-transfer function is not applied twice.
+transfer function is not applied twice. This example also publishes with Native AOT
+(`dotnet publish examples\SphereViewerSilk -c Release -r win-x64`). Silk.NET 2.x
+discovers its windowing/input back ends via reflection, which trimming removes, so
+`Program.cs` turns that discovery off and registers the GLFW platforms explicitly
+(`GlfwWindowing.RegisterPlatform()` / `GlfwInput.RegisterPlatform()`).
 
 ## Usage example
 

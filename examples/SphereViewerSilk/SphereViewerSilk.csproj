@@ -16,6 +16,8 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <!-- Native AOT publish is supported; see Program.cs for the platform registration it needs. -->
+    <PublishAot>true</PublishAot>
   </PropertyGroup>
 
 </Project>
